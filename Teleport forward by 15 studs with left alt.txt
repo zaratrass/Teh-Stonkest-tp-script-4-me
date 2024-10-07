@@ -1,0 +1,25 @@
+-- Script 1: Teleport 15 studs forward when Q is pressed
+
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local teleportDistance = 15 -- Distance to teleport
+
+-- Function to teleport 15 studs forward
+local function teleportForward()
+    local lookVector = humanoidRootPart.CFrame.LookVector
+    local newPosition = humanoidRootPart.Position + (lookVector * teleportDistance)
+    humanoidRootPart.CFrame = CFrame.new(newPosition)
+end
+
+-- Detect when Q is pressed
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end -- Ignore if it's already processed
+    if input.KeyCode == Enum.KeyCode.Q then
+        teleportForward()
+    end
+end)
